@@ -102,7 +102,7 @@ export default function Page() {
                   Mais equilíbrio mais saúde
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Aluizio Andrade apresenta a iniciativa Mais equilíbrio mais saúde, focada em promover bem-estar físico, mental, emocional, social e espiritual para uma vida mais equilibrada e saudável.
+                  Aluízio Andrade apresenta a iniciativa Mais equilíbrio mais saúde, focada em promover bem-estar físico, mental, emocional, social e espiritual para uma vida mais equilibrada e saudável.
                 </p>
               </div>
             </div>

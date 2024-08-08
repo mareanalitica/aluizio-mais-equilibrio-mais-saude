@@ -6,8 +6,8 @@ import { DATA } from "@/data/resume";
 
 interface HealthData {
     fisica: number | "";
-    emocional: number | "";
-    mental: number | "";
+    familiar: number | "";
+    financeira: number | "";
     espiritual: number | "";
     social: number | "";
 }
@@ -15,8 +15,8 @@ interface HealthData {
 const HealthForm: React.FC = () => {
     const [healthData, setHealthData] = useState<HealthData>({
         fisica: "",
-        emocional: "",
-        mental: "",
+        familiar: "",
+        financeira: "",
         espiritual: "",
         social: "",
     });
@@ -41,9 +41,9 @@ const HealthForm: React.FC = () => {
     };
 
     const checkFormValidity = () => {
-        const { fisica, emocional, mental, espiritual, social } = healthData;
+        const { fisica, familiar, financeira, espiritual, social } = healthData;
         setIsFormValid(
-            fisica !== "" && emocional !== "" && mental !== "" && espiritual !== "" && social !== ""
+            fisica !== "" && familiar !== "" && financeira !== "" && espiritual !== "" && social !== ""
         );
     };
 
@@ -53,14 +53,14 @@ const HealthForm: React.FC = () => {
     };
 
     const data = {
-        labels: ["Física", "Emocional", "Mental", "Espiritual", "Social"],
+        labels: ["Física", "Familiar", "Financeira", "Espiritual", "Social"],
         datasets: [
             {
                 label: "Nível de Saúde",
                 data: [
                     healthData.fisica || 0,
-                    healthData.emocional || 0,
-                    healthData.mental || 0,
+                    healthData.familiar || 0,
+                    healthData.financeira || 0,
                     healthData.espiritual || 0,
                     healthData.social || 0,
                 ],
@@ -109,9 +109,9 @@ const HealthForm: React.FC = () => {
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "hsl(var(--primary))" }}>
-                        Mapeamento de Nível de Saúde
+                        Atribua valores as saúdes
                     </h2>
-                    {["fisica", "emocional", "mental", "espiritual", "social"].map((item) => (
+                    {["fisica", "familiar", "financeira", "espiritual", "social"].map((item) => (
                         <div key={item}>
                             <label htmlFor={item} className="block text-lg mb-2 capitalize">{`Saúde ${item}`}</label>
                             <input
@@ -135,13 +135,13 @@ const HealthForm: React.FC = () => {
                             color: "hsl(var(--primary-foreground))",
                         }}
                     >
-                        Atualizar Gráfico
+                        Veja no Gráfico
                     </button>
                 </form>
                 {isFormValid && (
                     <div className="mt-8">
                         <Radar data={data} options={options} />
-                        <a href={"https://api.whatsapp.com/send/?phone=" + DATA.contact.tel + `&text=\nSaúde Emocional: ${healthData.emocional} \nSaúde Física: ${healthData.fisica} \nSaúde Mental: ${healthData.mental} \nSaúde Espiritual: ${healthData.espiritual} \nSaúde Social: ${healthData.social}`}>
+                        <a href={"https://api.whatsapp.com/send/?phone=" + DATA.contact.tel + `&text=\nSaúde Física: ${healthData.fisica} \nSaúde Familiar: ${healthData.familiar} \nSaúde Espiritual: ${healthData.espiritual} \nSaúde Social: ${healthData.social}`}>
                             <button
                                 type="button"
                                 className="w-full py-2 rounded-full transition duration-300"

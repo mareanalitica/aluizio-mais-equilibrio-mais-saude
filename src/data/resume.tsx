@@ -2,7 +2,7 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
-  name: "Aluizio Andrade",
+  name: "Aluízio Andrade",
   initials: "AA",
   url: "https://www.instagram.com/maisequilibriomaissaude/",
   location: "São Paulo, SP",
