@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Radar } from "react-chartjs-2";
 import "chart.js/auto";
 import { DATA } from "@/data/resume";
@@ -21,6 +21,60 @@ const HealthForm: React.FC = () => {
         social: "",
     });
     const [isFormValid, setIsFormValid] = useState(false);
+    const [showChart, setShowChart] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [chartOptions, setChartOptions] = useState({});
+
+    useEffect(() => {
+        const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const themeChangeHandler = (e: MediaQueryListEvent) => {
+            setIsDarkTheme(e.matches);
+        };
+
+        setIsDarkTheme(darkThemeMq.matches);
+        darkThemeMq.addEventListener("change", themeChangeHandler);
+
+        return () => {
+            darkThemeMq.removeEventListener("change", themeChangeHandler);
+        };
+    }, []);
+
+    useEffect(() => {
+        setChartOptions({
+            scales: {
+                r: {
+                    min: 0,
+                    max: 10,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,
+                        color: "darkgray",
+                    },
+                    grid: {
+                        color: "darkgray",
+                    },
+                    angleLines: {
+                        color: "darkgray",
+                    },
+                },
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "darkgray",
+                        font: {
+                            size: 20,
+                        },
+                        boxWidth: 10,
+                    },
+                    background: {
+                        color: isDarkTheme ? "black" : "white",
+                    },
+                },
+            },
+        });
+    }, [isDarkTheme]);
 
     const validateInput = (value: string): number | "" => {
         const numValue = Number(value);
@@ -38,18 +92,20 @@ const HealthForm: React.FC = () => {
             ...prevData,
             [name]: validatedValue,
         }));
-    };
-
-    const checkFormValidity = () => {
-        const { fisica, familiar, financeira, espiritual, social } = healthData;
-        setIsFormValid(
-            fisica !== "" && familiar !== "" && financeira !== "" && espiritual !== "" && social !== ""
-        );
+        setShowChart(false);
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        checkFormValidity();
+        const { fisica, familiar, financeira, espiritual, social } = healthData;
+        setIsFormValid(
+            fisica !== "" &&
+            familiar !== "" &&
+            financeira !== "" &&
+            espiritual !== "" &&
+            social !== ""
+        );
+        setShowChart(true);
     };
 
     const data = {
@@ -65,37 +121,10 @@ const HealthForm: React.FC = () => {
                     healthData.social || 0,
                 ],
                 backgroundColor: "rgba(54, 162, 235, 0.2)",
-                borderColor: "rgba(54, 162, 235, 1)",
+                borderColor: "darkgray",
                 borderWidth: 1,
             },
         ],
-    };
-
-    const options = {
-        scales: {
-            r: {
-                min: 0,
-                max: 10,
-                ticks: {
-                    beginAtZero: true,
-                    stepSize: 1,
-                    color: "hsl(var(--foreground))",
-                },
-                grid: {
-                    color: "rgba(128, 128, 128, 0.2)",
-                },
-                angleLines: {
-                    color: "rgba(128, 128, 128, 0.2)",
-                },
-            },
-        },
-        plugins: {
-            legend: {
-                labels: {
-                    color: "hsl(var(--foreground))",
-                },
-            },
-        },
     };
 
     return (
@@ -109,7 +138,7 @@ const HealthForm: React.FC = () => {
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "hsl(var(--primary))" }}>
-                        Atribua valores as saúdes
+                        Atribua valores às saúdes
                     </h2>
                     {["fisica", "familiar", "financeira", "espiritual", "social"].map((item) => (
                         <div key={item}>
@@ -135,12 +164,12 @@ const HealthForm: React.FC = () => {
                             color: "hsl(var(--primary-foreground))",
                         }}
                     >
-                        Veja no Gráfico
+                        Veja no gráfico abaixo
                     </button>
                 </form>
-                {isFormValid && (
+                {showChart && (
                     <div className="mt-8">
-                        <Radar data={data} options={options} />
+                        <Radar data={data} options={chartOptions} />
                         <a href={"https://api.whatsapp.com/send/?phone=" + DATA.contact.tel + `&text=\nSaúde Física: ${healthData.fisica} \nSaúde Familiar: ${healthData.familiar} \nSaúde Espiritual: ${healthData.espiritual} \nSaúde Social: ${healthData.social}`}>
                             <button
                                 type="button"
@@ -154,7 +183,6 @@ const HealthForm: React.FC = () => {
                             </button>
                         </a>
                     </div>
-
                 )}
             </div>
         </div>

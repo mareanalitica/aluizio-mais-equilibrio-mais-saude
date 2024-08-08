@@ -10,14 +10,14 @@ export const DATA = {
   description:
     "Coach & Palestrante.",
   summary:
-    "Aprenda a equilibrar sua vida pessoal, espiritual, famíliar e social🧘🏿‍♀️🧘🏻",
+    "Aprenda a equilibrar o seu futuro envolvendo sua familia. 🧘🏿‍♀️🧘🏻",
   avatarUrl: "/profile.jpg",
   skills: [
     "Educação",
-    "Saúde Mental",
-    "Nutrição",
-    "Atividade Física",
-    "Saúde Ambiental",
+    "Programação Nurolinguistica",
+    "Saúde Familiar",
+    "Saúde Financeira",
+    "Saúde espiritual",
     "Saúde Social",
   ],
   navbar: [
